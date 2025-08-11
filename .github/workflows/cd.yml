@@ -41,6 +41,9 @@ jobs:
       - name: Build and push Docker image
         run: gcloud builds submit --tag us-central1-docker.pkg.dev/black-anagram-468711-u7/notely-ar-repo/notely:dev
 
+      - name: Check DATABASE_URL presence
+        run: '[ -z "$DATABASE_URL" ] && echo "Not set!" || echo "DATABASE_URL is set."'
+        
       - name: install goose
         run: go install github.com/pressly/goose/v3/cmd/goose@latest
 
