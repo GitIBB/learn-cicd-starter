@@ -41,14 +41,11 @@ jobs:
       - name: Build and push Docker image
         run: gcloud builds submit --tag us-central1-docker.pkg.dev/black-anagram-468711-u7/notely-ar-repo/notely:dev
 
-      - name: Check DATABASE_URL presence
-        run: '[ -z "$DATABASE_URL" ] && echo "Not set!" || echo "DATABASE_URL is set."'
-        
-      - name: install goose
+      - name: Install goose
         run: go install github.com/pressly/goose/v3/cmd/goose@latest
 
-      - name: Run database migrations
-        run: $HOME/go/bin/goose -dir sql/schema sqlite3 "$DATABASE_URL" up
+      - name: Run migrations
+        run: ./scripts/migrateup.sh
 
       - name: Deploy to Cloud Run
         run: gcloud run deploy notely --image us-central1-docker.pkg.dev/black-anagram-468711-u7/notely-ar-repo/notely:dev --region us-central1 --allow-unauthenticated --project black-anagram-468711-u7 --max-instances=4
