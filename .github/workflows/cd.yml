@@ -42,7 +42,7 @@ jobs:
         run: gcloud builds submit --tag us-central1-docker.pkg.dev/black-anagram-468711-u7/notely-ar-repo/notely:dev
 
       - name: install goose
-        run: go install github.com/pressly/goose/v3@latest
+        run: go install github.com/pressly/goose/v3/cmd/goose@latest
 
       - name: Run database migrations
         run: $HOME/go/bin/goose -dir sql/schema sqlite3 "$DATABASE_URL" up
